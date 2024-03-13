@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servo App</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
+    <link rel="stylesheet" href="/style.css">
+    <script type="module" src="/client.js"></script>
+</head>
+<body>
+    <div class="grid-wrapper">
+        <nav class="navigation">
+            <div class="spotlight">
+                <div class="spotlight-header">
+                    <h3 class="spotlight-heading">Spotlight</h3>
+                    <h4><a href="" id="refresh-link">refresh</a></h4>
+                </div>
+                <div class="spotlight-info">
+                    <a href="", id="station-link"></a>
+                    <div id="station-address"></div>
+                </div>
+            </div>
+
+
+            <div class="stats">
+                <h3 class="stats-heading">Stats</h3>
+                <h4>total stations: <%= data.total_stations %></h4>
+                <h4 class="stats-owners">total owners: <%= data.total_owners %></h4>
+                <% for (let i = 0; i < 7; i++) { %> 
+                    <div class="flex-wrapper">
+                        <div class="servo-name"><%= data.owners[i].owner %></div>
+                        <div class="servo-total"><%= data.owners[i].total %></div>
+                    </div>
+                
+                <% } %>
+            </div>
+
+            <div class="weather-widget">
+                <div class="weather-header">
+                    <p><span class="weather-location"></span></p>
+                    <p><span class="weather-desc"></span></p>
+                </div>
+                <div class="weather-info">
+                    <p><span class="weather-temp"></span>°C</p>
+                    <img id="weather-icon" src="">
+                </div>
+                <div class="weather-stats">
+                    <p><span class="weather-rain"></span>%</p>
+                    <p><span class="weather-humidity"></span>%</p>
+                    <p><span class="weather-wind"></span> km/h</p>
+                </div>
+            </div>
+
+            <div class="about">
+                <h3 class="about-heading">About</h3>
+                <h4 class="about-team">The Three Musketeers</h4>
+                <div class="userInfo">
+                    <img src="" alt="" class="github-img">
+                    <div class="username">David</div>
+                </div>
+                <a class="github" href="https://github.com/dpockyyy" >
+                    https://github.com/dpockyyy</a>
+                <div class="userInfo">
+                    <img src="" alt="" class="github-img">
+                    <div class="username">Casey</div>
+                </div>
+                <a class="github" href="https://github.com/CaseyCheese" >
+                    https://github.com/CaseyCheese</a>
+                <div class="userInfo">
+                    <img src="" alt="" class="github-img">
+                    <div class="username">Nikki</div> 
+                </div>
+                <a class="github" href="https://github.com/NWProjects" >
+                    https://github.com/NWProjects</a>
+                <footer>&copy; 2024</footer>
+            </div>
+        </nav>
+
+        <main class="google-map">
+            <div id="map"></div>
+        </main>
+
+        <aside class="directions">
+            <div id="clock">
+                <h3 id="date-time"></h3>
+            </div>
+
+            <div class="center-location">
+                <h4 class="center-heading">Map Center Location</h4>
+                <div class="center-coords">
+                    <p>lat: <span id="map-ctr-lat"></span></p>
+                    <p>lng: <span id="map-ctr-lng"></span></p>
+                </div>
+                <!-- <button class="find-address-btn">Find</button> -->
+                <p><span class="map-ctr-address"></span></p>
+            </div>
+
+            <div class="nearest">
+                <div class="nearest-info">
+                    <h3 class="nearest-header">Nearest</h3>
+                    <input type="checkbox" onclick="handleCheckboxMeasurementToggle()" id="measurement-toggle">
+                    <label for="">Show distances in km</label>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+                <div id="servo-station">
+                    <div class="flex-wrapper-nearest">
+                        <p id="servo-name"></p> <p id="servo-distance"></p>
+                        <p id="servo-measurement">m</p>
+                    </div>
+                    <div id="servo-address"></div>
+                </div>
+                
+            </div>
+
+        </aside>
+        <!-- <div>
+            <button class="add-new-servo">Add New Petrol Station</button>
+        </div> -->
+        <!-- <div class="new-servo-form">
+            <form action="" class="new-servo-form">
+                <input type="text" name="name" placeholder="Name">
+                <input type="text" name="owner" placeholder="Owner">
+                <input type="text" name="address" placeholder="Address">
+                <input type="text" name="suburb" placeholder="Suburb">
+                <input type="text" name="state" placeholder="State">
+                <input type="number" name="latitude" placeholder="Latitude">
+                <input type="number" name="longitude" placeholder="Longitude">
+                <button>Add Petrol Station</button>
+            </form>
+        </div> -->
+    </div>
+
+
+
+    <script>(g=>{var h,a,k,p="The Google Maps JavaScript API",c="google",l="importLibrary",q="__ib__",m=document,b=window;b=b[c]||(b[c]={});var d=b.maps||(b.maps={}),r=new Set,e=new URLSearchParams,u=()=>h||(h=new Promise(async(f,n)=>{await (a=m.createElement("script"));e.set("libraries",[...r]+"");for(k in g)e.set(k.replace(/[A-Z]/g,t=>"_"+t[0].toLowerCase()),g[k]);e.set("callback",c+".maps."+q);a.src=`https://maps.${c}apis.com/maps/api/js?`+e;d[q]=f;a.onerror=()=>h=n(Error(p+" could not load."));a.nonce=m.querySelector("script[nonce]")?.nonce||"";m.head.append(a)}));d[l]?console.warn(p+" only loads once. Ignoring:",g):d[l]=(f,...n)=>r.add(f)&&u().then(()=>d[l](f,...n))})
+        ({key: "<%= MAPS_KEY %>", v: "weekly"});</script>
+    <script src="/client.js"></script>
+</body>
+</html>
