@@ -35,26 +35,25 @@ const mapCtrAddress = document.querySelectorAll('.map-ctr-address')
 
 
 refreshLink.addEventListener('click', handleClickRefreshLink)
-stationLink.addEventListener('click', updateSpotlight)
+// stationLink.addEventListener('click', handleSpotlight)
 document.addEventListener('keydown', handleDisplay)
-document.addEventListener("DOMContentLoaded", geoFindMe)
+// document.addEventListener("DOMContentLoaded", geoFindMe)
 document.addEventListener('click', handleClickCtrAddress)
 for (let servoStation of servoStations) {
     servoStation.addEventListener('click', handleClickServoStation)
 }
 
 
-// attempted to add user imgs, probably going to sack this feature, going back to sleeeeep..
 function loadUserImg() {
-  for (let i = 0; i < 3; i++) {
-    let user = github[i]
-    let username = user.innerHTML.split('/')[3]
-    fetch(`https://api.github.com/users/${username}`)
-      .then(result => result.json())
-      .then(data => {
-        githubImg[i].src = data.avatar_url
-      })
-  }
+    for (let i = 0; i < 3; i++) {
+        let user = github[i]
+        let username = user.innerHTML.split('/')[3]
+        fetch(`https://api.github.com/users/${username}`)
+            .then(result => result.json())
+            .then(data => {
+                githubImg[i].src = data.avatar_url
+            })
+    }
 }
 
 
@@ -63,10 +62,10 @@ function handleClickCtrAddress(event){
     let lng = mapCenterLng.textContent
     let location = lat + ',' + lng
     fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location}&key=AIzaSyBBVmJUTQL7TidRGsReetenLy-OWCUElew`)
-     .then(result => result.json())
-     .then(data => {
-        mapCtrAddress[0].textContent = data.results[0].formatted_address
-     })
+        .then(result => result.json())
+        .then(data => {
+            mapCtrAddress[0].textContent = data.results[0].formatted_address
+        })
 }
 
 
@@ -175,18 +174,15 @@ async function initMap() {
     )         
 })
   
-  google.maps.event.addListener(map, "center_changed", function() {
-    var center = this.getCenter()
-    var latitude = center.lat()
-    var longitude = center.lng()
-  mapCenterLat.textContent = latitude.toFixed(6)
-  mapCenterLng.textContent = longitude.toFixed(6)
-  
-  })
-
+    google.maps.event.addListener(map, "center_changed", function() {
+        var center = this.getCenter()
+        var latitude = center.lat()
+        var longitude = center.lng()
+    mapCenterLat.textContent = latitude.toFixed(6)
+    mapCenterLng.textContent = longitude.toFixed(6)
+    
+    })
 }
-
-
 
 initMap()
 
@@ -221,9 +217,9 @@ window.addEventListener("load", () => {
         // changing background colour based on AM/PM
         const gridWrapper = document.querySelector('.grid-wrapper')
         if (ampm === "PM") {
-          gridWrapper.style.backgroundColor = "gray"
+          gridWrapper.style.background = "linear-gradient(90deg, rgba(120,159,139,1) 0%, rgba(72,137,187,1) 100%)"
         } else {
-          gridWrapper.style.backgroundColor = "mistyrose"
+          gridWrapper.style.background = "linear-gradient(90deg, rgba(120,159,139,1) 0%, rgba(72,137,187,1) 100%)"
         }
         //get current date and time
         
@@ -241,42 +237,42 @@ window.addEventListener("load", () => {
 
 function geoFindMe() {
 
-  function success(position) {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      mapStartCenterLat = latitude
-      mapStartCenterLng = longitude
-      mapCenterLat.textContent = mapStartCenterLat.toFixed(6)
-      mapCenterLng.textContent = mapStartCenterLng.toFixed(6)
+    function success(position) {
+        const latitude = position.coords.latitude;
+        const longitude = position.coords.longitude;
+        mapStartCenterLat = latitude
+        mapStartCenterLng = longitude
+        mapCenterLat.textContent = mapStartCenterLat.toFixed(6)
+        mapCenterLng.textContent = mapStartCenterLng.toFixed(6)
 
-      fetch(`http://localhost:9090/api/stations/nearest/?lat=${mapStartCenterLat}&lng=${mapStartCenterLng}`)
-        .then(response => response.json())
-        .then(result => {
-          console.log(result)
-          return result})
-        .then(result => {
-          for (let i = 0; i < 10; i++) {
-            stationName[i].textContent = result[i].name
-            servoAddress[i].textContent = result[i].address
-            servoDistances[i].textContent = (Number(result[i].distance)*111.1*1000).toFixed(0)
-          }
-        })
-        
-      return `Latitude: ${latitude} °, Longitude: ${longitude} °`;
+        fetch(`http://localhost:9090/api/stations/nearest/?lat=${mapStartCenterLat}&lng=${mapStartCenterLng}`)
+            .then(response => response.json())
+            .then(result => {
+                for (let i = 0; i < 10; i++) {
+                    stationName[i].textContent = result[i].name
+                    servoAddress[i].textContent = result[i].address
+                    servoDistances[i].textContent = (Number(result[i].distance)*111.1*1000).toFixed(0)
+                }
+            })
+            
+        return `Latitude: ${latitude} °, Longitude: ${longitude} °`;
     }
 
     function error() {
-      return "Unable to retrieve your location";
+        return "Unable to retrieve your location";
     }
 
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(success, error);
+        navigator.geolocation.getCurrentPosition(success, error);
     } else {
-      return  "Geolocation is not supported by your browser";
+        return  "Geolocation is not supported by your browser";
     }
                       
     initMap()
 }
+
+let spotlightLat = 0
+let spotlightLng = 0 
 
 function updateSpotlight(){
     fetch('http://localhost:9090/api/stations/random')
@@ -284,13 +280,26 @@ function updateSpotlight(){
         .then(station => {
             stationLink.textContent = station.name
             stationAddress.textContent = station.address
-            mapStartCenterLat = parseFloat(station.latitude)
-            mapStartCenterLng = parseFloat(station.longitude)
-            initMap()
+            spotlightLat = parseFloat(station.latitude)
+            spotlightLng = parseFloat(station.longitude)
+            console.log("updating")
+            // initMap()
             updateWeather(mapStartCenterLat,mapStartCenterLng)
         })
 }
 
+// function handleSpotlight(){
+ 
+//     alert('wth')
+//    console.log("do we ever come here?")  
+//    console.log(spotlightLat)
+//    console.log(spotlightLng)
+//    mapStartCenterLat = spotlightLat
+//    mapStartCenterLng = spotlightLng
+//           initMap()
+//           // updateWeather(mapStartCenterLat,mapStartCenterLng)
+      
+// }
 
 function handleClickRefreshLink(event){
     event.preventDefault()
@@ -327,7 +336,7 @@ function updateWeather(mapStartCenterLat,mapStartCenterLng){
 function handleClickServoStation(event) {
     mapStartCenterLat = mapCenterLat
     mapStartCenterLng = mapCenterLng
-
+    event.target
     
 }
 
@@ -350,10 +359,10 @@ function handleCheckboxMeasurementToggle() {
     }
 }
 
-// geoFindMe()
+geoFindMe()
 updateSpotlight()
 loadUserImg()
-// updateWeather()
+updateWeather()
 // detectUserLocation()
 
 function detectUserLocation() {
@@ -369,10 +378,3 @@ function detectUserLocation() {
     )
     console.log('sucess')
 }
-
-
-// geoFindMe()
-updateSpotlight()
-// loadUserImg()
-updateWeather()
-// detectUserLocation()

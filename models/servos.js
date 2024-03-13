@@ -1,5 +1,6 @@
 const db = require('../db')
 
+
 function findAllServos() {
     const sql = `
         SELECT *
@@ -97,15 +98,14 @@ function findNearestServos(lat, lng, rad) {
 
 function findServosBounds(startLat, endLat, startLng, endLng) {
     let sql = `
-    SELECT * 
-    FROM servo_info
-    WHERE latitude < ${startLat}
-    AND latitude > ${endLat}
-    AND longitude < ${startLng}
-    AND longitude > ${endLng};
+        SELECT * 
+        FROM servo_info
+        WHERE latitude < ${startLat}
+        AND latitude > ${endLat}
+        AND longitude < ${startLng}
+        AND longitude > ${endLng};
     `
-    // AND longitude > ${startLng}
-    // AND longitude < ${endLng};
+
     return db.query(sql)
         .then(result => result.rows)
 }
@@ -122,6 +122,7 @@ function createServo(name, owner, address, suburb, state, latitude, longitude) {
         .then(result => result.rows[0])
 }
 
+
 module.exports = {
     findAllServos,
     findUniqueOwners,
@@ -131,4 +132,3 @@ module.exports = {
     findServosBounds,
     createServo
 }
-
